@@ -19,14 +19,14 @@ type Controller struct {
 	repo ratingRepository
 }
 
-func NewController(repo ratingRepository) *Controller {
+func New(repo ratingRepository) *Controller {
 	return &Controller{repo}
 }
 
 // GetAggregatedRating returns the aggregated rating for a
 // record or ErrNotFound if there are no ratings for it.
 
-func (c *Controller) Get(ctx context.Context, id model.RecordId, typ model.RecordType) (float64, error) {
+func (c *Controller) GetAgrrementRating(ctx context.Context, id model.RecordId, typ model.RecordType) (float64, error) {
 	ratings, err := c.repo.Get(ctx, id, typ)
 
 	if err != nil && err != repository.ErrornotFound {
@@ -41,4 +41,8 @@ func (c *Controller) Get(ctx context.Context, id model.RecordId, typ model.Recor
 	}
 
 	return average / float64(cnt), err
+}
+
+func (c *Controller) PutAgreementRating(ctx context.Context, id model.RecordId, typ model.RecordType, rating *model.Rating) error {
+	return c.repo.Post(ctx, id, typ, rating)
 }
