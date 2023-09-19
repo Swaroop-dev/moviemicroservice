@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 
-	rating "movieapp.com/rating/internal/controller"
-	"movieapp.com/rating/internal/handler/http"
+	rating "movieapp.com/rating/internal/controller/rating"
+	httpHandler "movieapp.com/rating/internal/handler/http"
 	"movieapp.com/rating/internal/repository/memory"
 )
 

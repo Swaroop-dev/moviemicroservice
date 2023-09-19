@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"strconv"
 
-	rating "movieapp.com/rating/internal/controller"
+	rating "movieapp.com/rating/internal/controller/rating"
 	"movieapp.com/rating/pkg/model"
 )
 
@@ -35,7 +35,7 @@ func (h *Handler) Handle(w http.ResponseWriter, r *http.Request) {
 
 	switch r.Method {
 	case http.MethodGet:
-		v, err := h.ctrl.GetAgrrementRating(r.Context(), recordId, recordType)
+		v, err := h.ctrl.GetAgregatedRating(r.Context(), recordId, recordType)
 
 		if err != nil && errors.Is(err, rating.ErrNotFound) {
 			w.WriteHeader(http.StatusNotFound)
@@ -54,7 +54,7 @@ func (h *Handler) Handle(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		if err := h.ctrl.PutAgreementRating(r.Context(), recordId, recordType, &model.Rating{UserId: userId, Value: model.RatingValue(value)}); err != nil {
+		if err := h.ctrl.PutAgregatedRating(r.Context(), recordId, recordType, &model.Rating{UserId: userId, Value: model.RatingValue(value)}); err != nil {
 			log.Printf("Repository put error: %v\n", err)
 			w.WriteHeader(http.StatusInternalServerError)
 		}
