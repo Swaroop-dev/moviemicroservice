@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	log.Println("startign the movie service ")
+	log.Println("starting the movie service ")
 
 	metadatagateway := metadata_gateway.New("localhost:8081")
 	ratinggateway := rating_gateway.New("localhost:8082")

@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	log.Println("starting the movie service")
+	log.Println("starting the movie metadata service")
 	repo := memory.New()
 	metadarepo := metadata.New(repo)
 	h := httphandler.New(metadarepo)
