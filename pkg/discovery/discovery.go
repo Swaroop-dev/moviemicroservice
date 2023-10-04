@@ -12,14 +12,14 @@ type Registry interface {
 	//register the service
 	Register(ctx context.Context, servicename string, hostport string, instanceId string) error
 	//deregister Service
-	Deregister(ctx context.Context, servicename string, hostport string, instanceId string) error
+	Deregister(ctx context.Context, servicename string, instanceId string) error
 
 	//Recieve Service Addresss
 
 	ServiceAddresses(ctx context.Context, servicename string) ([]string, error)
 
 	//Peroidic call to report the status
-	ReportHealthyState(instanceId string, serviceName string)
+	ReportHealthyState(instanceId string, serviceName string) error
 }
 
 // ErrNotFound is returned when no service addresses are
