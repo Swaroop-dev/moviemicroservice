@@ -5,11 +5,16 @@ import (
 	"flag"
 	"fmt"
 	"log"
-	"net/http"
+	"net"
 	"time"
 
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
+	"movieapp.com/gen"
 	"movieapp.com/metadata/internal/controller/metadata"
-	httphandler "movieapp.com/metadata/internal/handler/http"
+
+	// httphandler "movieapp.com/metadata/internal/handler/http"
+	grpchandler "movieapp.com/metadata/internal/handler/grpc"
 	"movieapp.com/metadata/internal/repository/memory"
 	"movieapp.com/pkg/discovery"
 	"movieapp.com/pkg/discovery/consul"
@@ -42,11 +47,16 @@ func main() {
 	}()
 	defer registry.Deregister(ctx, instanceID, serviceName)
 	repo := memory.New()
-	metadarepo := metadata.New(repo)
-	h := httphandler.New(metadarepo)
-
-	http.Handle("/metadata", http.HandlerFunc(h.GetMetaData))
-	if err := http.ListenAndServe(":8081", nil); err != nil {
+	metadatactrl := metadata.New(repo)
+	h := grpchandler.New(metadatactrl)
+	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%v", port))
+	if err != nil {
+		log.Fatalf("failed to listen: %v", err)
+	}
+	srv := grpc.NewServer()
+	reflection.Register(srv)
+	gen.RegisterMetadataServiceServer(srv, h)
+	if err := srv.Serve(lis); err != nil {
 		panic(err)
 	}
 }
