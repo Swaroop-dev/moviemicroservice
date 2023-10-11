@@ -19,7 +19,7 @@ message GetMetadataRequest {
 }
 
 message GetMetadataResponse {
-    Metadata metadata=1
+    Metadata metadata=1;
 }
 
 message PutMetadataRequest {
