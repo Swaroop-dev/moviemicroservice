@@ -47,6 +47,7 @@ message PutRatingRequest {
     string record_id=1;
     string record_type=2;
     int32 rating_value=3;
+    string user_id=4;
 }
 
 message PutRatingResponse {
