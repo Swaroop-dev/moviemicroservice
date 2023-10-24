@@ -14,3 +14,13 @@ func MetadataToProto(m *Metadata) *gen.Metadata {
 		Director:    m.Director,
 	}
 }
+
+// MetadataFromProto converts a generated proto counterpart into a Metadata struct.
+func MetadataFromProto(m *gen.Metadata) *Metadata {
+	return &Metadata{
+		ID:          m.Id,
+		Title:       m.Title,
+		Description: m.Description,
+		Director:    m.Director,
+	}
+}
