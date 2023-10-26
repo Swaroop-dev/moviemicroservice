@@ -6,6 +6,7 @@ require github.com/hashicorp/consul/api v1.25.1
 
 require (
 	github.com/armon/go-metrics v0.4.1 // indirect
+	github.com/confluentinc/confluent-kafka-go v1.9.2 // indirect
 	github.com/fatih/color v1.14.1 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
