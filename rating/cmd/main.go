@@ -17,7 +17,7 @@ import (
 	//httpHandler "movieapp.com/rating/internal/handler/http"
 	"movieapp.com/gen"
 	grpcHandler "movieapp.com/rating/internal/handler/grpc"
-	"movieapp.com/rating/internal/repository/memory"
+	"movieapp.com/rating/internal/repository/mysql"
 )
 
 const serviceName = "rating"
@@ -45,7 +45,10 @@ func main() {
 		}
 	}()
 	defer registry.Deregister(ctx, instanceID, serviceName)
-	repo := memory.New()
+	repo, err := mysql.New()
+	if err != nil {
+		panic(err)
+	}
 	ctrl := rating.New(repo, nil)
 	h := grpcHandler.New(ctrl)
 	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%v", port))
